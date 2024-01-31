@@ -10,11 +10,13 @@ export function Film() {
     const url = 'http://localhost:3500/api/films';
     const { id } = useParams();
 
+    /*
     useEffect(() => {
         fetch(`${url}/${id}`)
             .then(res => res.json())
             .then(film => setFilm(film));
     }, []);
+    */
 
     useEffect(() => {
         // declare the data fetching function

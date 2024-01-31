@@ -152,35 +152,16 @@ app.get("/api/films/:id/characters", async (req, res) => {
     }
 });
 
-// uhh?
 app.get("/api/planets/:id/characters", async (req, res) => {
     let id = req.params.id;
     try {
         const client = await MongoClient.connect(dbUri);
         const db = client.db('swapi');
-
-        // step 1: planets - films
-        const collection = db.collection("films_planets");
-        const collectionFilms = db.collection('films')
-
-        let filmsFound = await collection.find({'planet_id': +id}).toArray();
-        let filmsSearch = filmsFound.map((planet)=> {return {'id':planet.film_id}});
-        const result = await collectionFilms.find({'$or':filmsSearch}).toArray();
-        
-        // step 2: films - chars
-        let filmIds = result.map((item) => { return {'film_id': item.id}});
-        const collection2 = db.collection("films_characters");
-        const collectionChars = db.collection('characters')
-
-        let charsFound = await collection2.find({'$or': filmIds}).toArray();
-        let charsSearch = charsFound.map((chars)=> {return {'id':chars.character_id}});
-        const result2 = await collectionChars.find({'$or':charsSearch}).toArray();
-
-        //step 3: filter result
-        
-
+        const collection = db.collection("characters");
+        let allChars = await collection.find().toArray();
+        let result = allChars.filter(character => character.homeworld === +id)
         client.close();
-        res.json(result2);
+        res.json(result);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
