@@ -7,13 +7,30 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const dbUri = 'mongodb://127.0.0.1:27017';
+// const dbUri = 'mongodb://localhost:27017';
+
+async function getAll(database, coll) {
+    const client = await MongoClient.connect(dbUri);
+    const db = client.db(database);
+    const collection = db.collection(coll);
+    const result = await collection.find().toArray();
+    client.close();
+    return result;
+}
+
+async function getOne(database, coll, id) {
+    const client = await MongoClient.connect(dbUri);
+    const db = client.db(database);
+    const collection = db.collection(coll);
+    const result = await collection.findOne({'id': +id});
+    client.close();
+    return result;
+}
+
 app.get('/api/planets', async (req, res) => {
     try {
-        const client = await MongoClient.connect('mongodb://localhost:27017');
-        const db = client.db('swapi');
-        const collection = db.collection('planets');
-        const planets = await collection.find().toArray();
-        client.close();
+        const planets = await getAll('swapi', 'planets');
         res.json(planets);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -22,11 +39,7 @@ app.get('/api/planets', async (req, res) => {
 
 app.get("/api/characters", async (req, res) => {
     try {
-        const client = await MongoClient.connect('mongodb://localhost:27017');
-        const db = client.db('swapi');
-        const collection = db.collection('characters');
-        const characters = await collection.find().toArray();
-        client.close();
+        const characters = await getAll('swapi', 'characters');
         res.json(characters);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -35,11 +48,7 @@ app.get("/api/characters", async (req, res) => {
 
 app.get("/api/films", async (req, res) => {
     try {
-        const client = await MongoClient.connect('mongodb://localhost:27017');
-        const db = client.db('swapi');
-        const collection = db.collection('films');
-        const films = await collection.find().toArray();
-        client.close();
+        const films = await getAll('swapi', 'films');
         res.json(films);
     } catch (error) {
         res.status(500).json({ error: error.message });
