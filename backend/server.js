@@ -64,6 +64,26 @@ app.get("/api/characters/:id", async (req, res) => {
     }
 });
 
+app.get("/api/films/:id", async (req, res) => {
+    try {
+        let id = req.params.id
+        const character = await getOne('swapi', 'films', id);
+        res.json(character);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get("/api/planets/:id", async (req, res) => {
+    try {
+        let id = req.params.id
+        const character = await getOne('swapi', 'planets', id);
+        res.json(character);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 app.get("/api/characters/:id/films", async (req, res) => {
     let id = req.params.id
     try {
