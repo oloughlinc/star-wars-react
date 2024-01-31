@@ -8,7 +8,6 @@ app.use(express.json());
 app.use(cors());
 
 const dbUri = 'mongodb://127.0.0.1:27017';
-// const dbUri = 'mongodb://localhost:27017';
 
 async function getAll(database, coll) {
     const client = await MongoClient.connect(dbUri);
