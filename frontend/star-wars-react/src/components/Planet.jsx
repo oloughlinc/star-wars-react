@@ -1,17 +1,27 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 export function Planet() {
     let [planet, setPlanet] = useState({});
+    let [films, setFilms] = useState([]);
 
     const url = 'http://localhost:3500/api/planets';
     const { id } = useParams();
 
     useEffect(() => {
-        fetch(`${url}/${id}`)
-            .then(res => res.json())
-            .then(planet => setPlanet(planet));
-    }, []);
+        const fetchData = async () => {
+            await fetch(`${url}/${id}`)
+                .then(res => res.json())
+                .then(planet => setPlanet(planet));
+            
+            await fetch(`${url}/${id}/films`)
+                .then(res => res.json())
+                .then(films => setFilms(films));
+    }
+fetchData()
+
+});
 
     return (
         <>
@@ -24,11 +34,10 @@ export function Planet() {
         </section>
         <section id="characters">
             <h2>Characters</h2>
-            <p><span id="character"></span></p>
         </section>
         <section id="films">
             <h2>Films appeared in</h2>
-            <ul></ul>
+                {films.map(((film)=><ul><Link to={`../film/${film.id}`}>{film.title}</Link></ul>))} 
         </section>
         </>
     )
