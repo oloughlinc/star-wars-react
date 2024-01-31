@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 export function Character() {
     let [character, setCharacter] = useState({});
+    let [homeWorld, setHomeWorld] = useState({});
+    let [films, setFilms] = useState([]);
 
     const url = 'http://localhost:3500/api/characters';
+    const urlPlanet = 'http://localhost:3500/api/planets';
     const { id } = useParams();
 
     useEffect(() => {
@@ -12,6 +16,22 @@ export function Character() {
             .then(res => res.json())
             .then(character => setCharacter(character));
     }, []);
+
+    useEffect(() => {
+        fetch(`${urlPlanet}/${1}`)
+            .then(res => res.json())
+            .then(planet => setHomeWorld(planet));
+    }, [character]);
+
+    useEffect(() => {
+        fetch(`${url}/${id}/films`)
+            .then(res => res.json())
+            .then(films => setFilms(films));
+    }, []);
+
+    console.log(character)
+    console.log(homeWorld)
+    console.log(films)
 
     return (
         <>
@@ -23,11 +43,13 @@ export function Character() {
         </section>
         <section id="planets">
             <h2>Homeworld</h2>
-            <p><span id="homeworld"></span></p>
+            <Link to={`../planet/${character.homeworld}`}>
+            <p><span id="homeworld">{homeWorld.name}</span></p>
+            </Link>
         </section>
         <section id="films">
             <h2>Films appeared in</h2>
-            <ul></ul>
+                {films.map(((film)=><ul><Link to={`../film/${film.id}`}>{film.title}</Link></ul>))}
         </section>
         </>
     )
