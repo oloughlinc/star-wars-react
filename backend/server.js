@@ -154,13 +154,15 @@ app.get("/api/films/:id/characters", async (req, res) => {
 
 // uhh?
 app.get("/api/planets/:id/characters", async (req, res) => {
-    // step 1: planets - films
     let id = req.params.id;
     try {
         const client = await MongoClient.connect(dbUri);
         const db = client.db('swapi');
+
+        // step 1: planets - films
         const collection = db.collection("films_planets");
         const collectionFilms = db.collection('films')
+
         let filmsFound = await collection.find({'planet_id': +id}).toArray();
         let filmsSearch = filmsFound.map((planet)=> {return {'id':planet.film_id}});
         const result = await collectionFilms.find({'$or':filmsSearch}).toArray();
@@ -169,9 +171,13 @@ app.get("/api/planets/:id/characters", async (req, res) => {
         let filmIds = result.map((item) => { return {'film_id': item.id}});
         const collection2 = db.collection("films_characters");
         const collectionChars = db.collection('characters')
+
         let charsFound = await collection2.find({'$or': filmIds}).toArray();
         let charsSearch = charsFound.map((chars)=> {return {'id':chars.character_id}});
         const result2 = await collectionChars.find({'$or':charsSearch}).toArray();
+
+        //step 3: filter result
+        
 
         client.close();
         res.json(result2);
