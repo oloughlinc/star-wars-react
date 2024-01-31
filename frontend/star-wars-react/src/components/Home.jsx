@@ -14,12 +14,13 @@ export function Home() {
 
     return(
         <>
-            <h1>It Also Works</h1>
+            <h1>Star Wars Universe Lookup</h1>
+            <section id="charactersList">
             {characters.map((character) => {
                 return (
-                    <div>{character.name}</div>
+                    <div key={character.id}>{character.name}</div>
                 )
-            })}
+            })}</section>
         </>
     );
 }
