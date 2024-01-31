@@ -45,4 +45,4 @@ app.get("/api/films", async (req, res) => {
 });
 
 const port = 3500;
-app.listen(port, () => console.log(`server running on port ${3500}`));
+app.listen(port, () => console.log(`server running on port ${port}`));
