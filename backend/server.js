@@ -85,18 +85,51 @@ app.get("/api/planets/:id", async (req, res) => {
 });
 
 app.get("/api/characters/:id/films", async (req, res) => {
-    let id = req.params.id
+    let id = req.params.id;
     try {
         const client = await MongoClient.connect(dbUri);
         const db = client.db('swapi');
-        const collection = db.collection('films_characters');
+        const collection = db.collection("films_characters");
         const collectionFilms = db.collection('films')
-        let filmsFound = collection.find({'character_id': +id}).toArray();
-        res.json(filmsFound).end();
-        // let filmsSearch = filmsFound.map((film)=> {return {'id':film.film_id}});
-        // const result2 = await collectionFilms.find({'$or':filmsSearch}).toArray();
-        // client.close();
-        // res.json(result2);
+        let filmsFound = await collection.find({'character_id': +id}).toArray();
+        let filmsSearch = filmsFound.map((film)=> {return {'id':film.film_id}});
+        const result = await collectionFilms.find({'$or':filmsSearch}).toArray();
+        client.close();
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get("/api/planets/:id/character", async (req, res) => {
+    let id = req.params.id;
+    try {
+        const client = await MongoClient.connect(dbUri);
+        const db = client.db('swapi');
+        const collection = db.collection("films_characters");
+        const collectionFilms = db.collection('films')
+        let filmsFound = await collection.find({'character_id': +id}).toArray();
+        let filmsSearch = filmsFound.map((film)=> {return {'id':film.film_id}});
+        const result = await collectionFilms.find({'$or':filmsSearch}).toArray();
+        client.close();
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get("/api/planets/:id/films", async (req, res) => {
+    let id = req.params.id;
+    try {
+        const client = await MongoClient.connect(dbUri);
+        const db = client.db('swapi');
+        const collection = db.collection("films_characters");
+        const collectionFilms = db.collection('films')
+        let filmsFound = await collection.find({'character_id': +id}).toArray();
+        let filmsSearch = filmsFound.map((film)=> {return {'id':film.film_id}});
+        const result = await collectionFilms.find({'$or':filmsSearch}).toArray();
+        client.close();
+        res.json(result);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
