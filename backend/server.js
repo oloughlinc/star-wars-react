@@ -22,7 +22,7 @@ async function getOne(database, coll, id) {
     const client = await MongoClient.connect(dbUri);
     const db = client.db(database);
     const collection = db.collection(coll);
-    const result = await collection.findOne({'id': +id});
+    const result = await collection.findOne({ 'id': +id });
     client.close();
     return result;
 }
@@ -49,6 +49,34 @@ app.get("/api/films", async (req, res) => {
     try {
         const films = await getAll('swapi', 'films');
         res.json(films);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get("/api/characters/:id", async (req, res) => {
+    try {
+        let id = req.params.id
+        const character = await getOne('swapi', 'characters', id);
+        res.json(character);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get("/api/characters/:id/films", async (req, res) => {
+    let id = req.params.id
+    try {
+        const client = await MongoClient.connect(dbUri);
+        const db = client.db('swapi');
+        const collection = db.collection('films_characters');
+        const collectionFilms = db.collection('films')
+        let filmsFound = collection.find({'character_id': +id}).toArray();
+        res.json(filmsFound).end();
+        // let filmsSearch = filmsFound.map((film)=> {return {'id':film.film_id}});
+        // const result2 = await collectionFilms.find({'$or':filmsSearch}).toArray();
+        // client.close();
+        // res.json(result2);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
