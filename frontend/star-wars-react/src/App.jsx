@@ -3,6 +3,7 @@ import { Route, Routes, Navigate, Link, NavLink } from 'react-router-dom'
 import './App.css'
 import { Home } from './components/Home'
 import { Character } from './components/Character'
+import { Planet } from './components/Planet'
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<Home />} />
         <Route path="/character/:id" element={<Character />} />
+        <Route path="/planet/:id" element={<Planet />} />
       </Routes>
     </>
   )
