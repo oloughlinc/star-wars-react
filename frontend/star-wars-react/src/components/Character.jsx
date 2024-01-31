@@ -12,26 +12,26 @@ export function Character() {
     const { id } = useParams();
 
     useEffect(() => {
-        fetch(`${url}/${id}`)
+        // declare the data fetching function
+        const fetchData = async () => {
+          let searchChar = await fetch(`${url}/${id}`)
             .then(res => res.json())
-            .then(character => setCharacter(character));
-    }, []);
-
-    useEffect(() => {
-        fetch(`${urlPlanet}/${1}`)
+            .then(character => {
+                setCharacter(character);
+                return character;
+            });
+          await fetch(`${urlPlanet}/${searchChar.homeworld}`)
             .then(res => res.json())
             .then(planet => setHomeWorld(planet));
-    }, [character]);
-
-    useEffect(() => {
-        fetch(`${url}/${id}/films`)
+          await fetch(`${url}/${id}/films`)
             .then(res => res.json())
             .then(films => setFilms(films));
-    }, []);
-
-    console.log(character)
-    console.log(homeWorld)
-    console.log(films)
+        }
+      
+        // call the function
+        fetchData()
+          .catch(console.error);
+      }, [])
 
     return (
         <>
