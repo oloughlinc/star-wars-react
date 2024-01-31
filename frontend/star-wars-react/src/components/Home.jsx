@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react'
+import { Link } from "react-router-dom";
 
 export function Home() {
     const url = 'http://localhost:3500/api/characters';
@@ -18,7 +19,9 @@ export function Home() {
             <section id="charactersList">
             {characters.map((character) => {
                 return (
-                    <div key={character.id}>{character.name}</div>
+                    <Link to={`../character/${character.id}`}>
+                        <div key={character.id}>{character.name}</div>
+                    </Link>
                 )
             })}</section>
         </>
