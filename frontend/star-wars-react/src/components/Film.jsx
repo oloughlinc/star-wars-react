@@ -33,12 +33,13 @@ export function Film() {
         <>
         <h1 id="name">{film.title}</h1>
         <section id="generalInfo">
-            <div id="crawl">{film.opening_crawl}</div>
+            <div id="crawl"><b>{film.opening_crawl}</b></div>
             <p>Episode: <span id="episode">{film.episode_id}</span></p>
             <p>Director: <span id="director">{film.director}</span></p>
             <p>Release Date: <span id="release">{film.release_date}</span></p>
             <p>Producer: <span id="producer">{film.producer}</span></p>
         </section>
+        <div className='animate-me'>
         <section id="characters">
             <h2>Characters</h2>
             {characters.map(((item)=><ul><Link to={`../character/${item.id}`}>{item.name}</Link></ul>))}
@@ -47,6 +48,7 @@ export function Film() {
             <h2>Planets</h2>
             {planets.map(((item)=><ul><Link to={`../planet/${item.id}`}>{item.name}</Link></ul>))}
         </section>
+        </div>
         </>
     )
 }

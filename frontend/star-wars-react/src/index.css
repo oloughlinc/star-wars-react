@@ -1,3 +1,5 @@
+@import url('https://fonts.cdnfonts.com/css/star-wars');
+
 body,
 div,
 h1,
@@ -16,9 +18,25 @@ p {
   --light1: white;
   --dark2: darkblue;
   --light2: rgb(16, 173, 212);
-  background-color: black;
-  background-image: url(space.jpg);
+  /*background-color: black;*/
+  
+  /*background-image: url('/space.jpg');*/
   color: var(--light1);
+  color: rgb(255, 198, 45);
+}
+
+#background {
+  background-image: url('/space.jpg');
+  width:100vw;
+  height:120vh;
+  z-index: -2;
+  scale: 1.2;
+  position:fixed;
+}
+
+#content {
+  background-color: rgba(0,0,0,0);
+  z-index: 1;
 }
 
 button {
@@ -73,6 +91,23 @@ label {
 /* Character page */
 h1#name {
   margin: 50px;
+  animation-name: fade;
+  animation-duration: 2s;
+}
+
+@keyframes fade {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+#name {
+  font-family: 'Star Wars';
+  font-size: 44px;
+}
+
+.centered {
+  width: 90%;
+  margin: auto;
 }
 
 #generalInfo {
@@ -131,9 +166,24 @@ section#films a:hover {
   scale: 1.05;
 }
 
+#charactersList {
+  animation: enterLeft 0.5s, fade 1s;
+}
+
 #crawl {
   margin-left: 50px;
   margin-right: 50px;
   margin-bottom: 50px;
   background-color: black;
+  animation-name: fade;
+  animation-duration: 5s;
+}
+
+@keyframes enterLeft {
+  from {transform: translateY(1000px)};
+  to {transform: translateY(0px)};
+}
+
+.animate-me {
+  animation: enterLeft 0.5s, fade 1s;
 }

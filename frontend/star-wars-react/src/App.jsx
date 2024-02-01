@@ -10,6 +10,8 @@ import { Planet } from './components/Planet'
 function App() {
   return (
     <>
+      <div id='background'></div>
+      <div id='content'>
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<Home />} />
@@ -17,6 +19,7 @@ function App() {
         <Route path="/film/:id" element={<Film />} />
         <Route path="/planet/:id" element={<Planet />} />
       </Routes>
+      </div>
     </>
   )
 }

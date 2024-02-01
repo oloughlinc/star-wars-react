@@ -41,6 +41,7 @@ export function Character() {
             <p>Mass: <span id="mass"></span>{character.mass} kg</p>
             <p>Born: <span id="birth_year"></span>{character.birth_year}</p>
         </section>
+        <div className='animate-me'>
         <section id="planets">
             <h2>Homeworld</h2>
             <Link to={`../planet/${character.homeworld}`}>
@@ -51,6 +52,7 @@ export function Character() {
             <h2>Films appeared in</h2>
                 {films.map(((film)=><ul><Link to={`../film/${film.id}`}>{film.title}</Link></ul>))}
         </section>
+        </div>
         </>
     )
 }

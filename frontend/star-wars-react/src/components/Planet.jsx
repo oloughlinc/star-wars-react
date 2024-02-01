@@ -37,6 +37,7 @@ export function Planet() {
                 <p>Diameter: <span id="diameter"></span>{planet.diameter} cm</p>
                 <p>Gravity: <span id="gravity"></span>{planet.gravity}</p>
             </section>
+            <div className='animate-me'>
             <section id="characters">
                 <h2>Characters</h2>
                 {characters.map(((c) => <ul><Link to={`../character/${c.id}`}>{c.name}</Link></ul>))}
@@ -45,6 +46,7 @@ export function Planet() {
                 <h2>Films appeared in</h2>
                 {films.map(((film) => <ul><Link to={`../film/${film.id}`}>{film.title}</Link></ul>))}
             </section>
+            </div>
         </>
     )
 }

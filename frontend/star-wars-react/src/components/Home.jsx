@@ -16,11 +16,11 @@ export function Home() {
             });
     }, []);
 
-    console.log(characters);
-
     return(
         <>
-            <h1>Star Wars Universe Lookup</h1>
+            <div className='centered'>
+            <h1 id="name" style={{fontFamily: 'Star Wars', fontSize: '50px'}}>Star Wars Universe Lookup</h1>
+            </div>
             <Search chars={charactersCache} setChars={setCharacters}/>
             <section id="charactersList">
             {characters.map((character) => {
