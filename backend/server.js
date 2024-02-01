@@ -89,11 +89,9 @@ app.get("/api/characters/:id/films", async (req, res) => {
     try {
         const client = await MongoClient.connect(dbUri);
         const db = client.db('swapi');
-        const collection = db.collection("films_characters");
-        const collectionFilms = db.collection('films')
-        let filmsFound = await collection.find({'character_id': +id}).toArray();
-        let filmsSearch = filmsFound.map((film)=> {return {'id':film.film_id}});
-        const result = await collectionFilms.find({'$or':filmsSearch}).toArray();
+        let filmIds = await db.collection('films_characters').find({'character_id': +id}).toArray();
+        filmIds = filmIds.map((film)=> {return {'id':film.film_id}});
+        const result = filmIds.length ? await db.collection('films').find({'$or':filmIds}).toArray():[];
         client.close();
         res.json(result);
     } catch (error) {
@@ -106,11 +104,9 @@ app.get("/api/planets/:id/films", async (req, res) => {
     try {
         const client = await MongoClient.connect(dbUri);
         const db = client.db('swapi');
-        const collection = db.collection("films_planets");
-        const collectionFilms = db.collection('films')
-        let filmsFound = await collection.find({'planet_id': +id}).toArray();
-        let filmsSearch = filmsFound.map((planet)=> {return {'id':planet.film_id}});
-        const result = await collectionFilms.find({'$or':filmsSearch}).toArray();
+        let filmIds = await db.collection('films_planets').find({'planet_id': +id}).toArray();
+        filmIds = filmIds.map((planet)=> {return {'id':planet.film_id}});
+        let result = filmIds.length ? await db.collection('films').find({'$or':filmIds}).toArray():[];
         client.close();
         res.json(result);
     } catch (error) {
@@ -123,11 +119,9 @@ app.get("/api/films/:id/planets", async (req, res) => {
     try {
         const client = await MongoClient.connect(dbUri);
         const db = client.db('swapi');
-        const collection = db.collection("films_planets");
-        const collectionFilms = db.collection('planets')
-        let planetsFound = await collection.find({'film_id': +id}).toArray();
-        let planetsSearch = planetsFound.map((planet)=> {return {'id':planet.planet_id}});
-        const result = await collectionFilms.find({'$or':planetsSearch}).toArray();
+        let planetIds = await db.collection('films_planets').find({'film_id': +id}).toArray();
+        planetIds = planetIds.map((planet)=> {return {'id':planet.planet_id}});
+        let result = planetIds.length ? await db.collection('planets').find({'$or':planetIds}).toArray():[];
         client.close();
         res.json(result);
     } catch (error) {
@@ -140,11 +134,9 @@ app.get("/api/films/:id/characters", async (req, res) => {
     try {
         const client = await MongoClient.connect(dbUri);
         const db = client.db('swapi');
-        const collection = db.collection("films_characters");
-        const collectionChars = db.collection('characters')
-        let charsFound = await collection.find({'film_id': +id}).toArray();
-        let charsSearch = charsFound.map((chars)=> {return {'id':chars.character_id}});
-        const result = await collectionChars.find({'$or':charsSearch}).toArray();
+        let charIds = await db.collection('films_characters').find({'film_id': +id}).toArray()
+        charIds = charIds.map((chars)=> {return {'id':chars.character_id}});
+        let result = charIds.length ? await db.collection('characters').find({'$or':charIds}).toArray():[];
         client.close();
         res.json(result);
     } catch (error) {
@@ -155,12 +147,8 @@ app.get("/api/films/:id/characters", async (req, res) => {
 app.get("/api/planets/:id/characters", async (req, res) => {
     let id = req.params.id;
     try {
-        const client = await MongoClient.connect(dbUri);
-        const db = client.db('swapi');
-        const collection = db.collection("characters");
-        let allChars = await collection.find().toArray();
+        let allChars = await getAll('swapi', 'characters');
         let result = allChars.filter(character => character.homeworld === +id)
-        client.close();
         res.json(result);
     } catch (error) {
         res.status(500).json({ error: error.message });

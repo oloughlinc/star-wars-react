@@ -12,7 +12,7 @@ export function Character() {
     const { id } = useParams();
 
     useEffect(() => {
-        // declare the data fetching function
+        // need to get character first, so we can find homeworld
         const fetchData = async () => {
           let searchChar = await fetch(`${url}/${id}`)
             .then(res => res.json())

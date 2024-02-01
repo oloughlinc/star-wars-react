@@ -10,14 +10,6 @@ export function Film() {
     const url = 'http://localhost:3500/api/films';
     const { id } = useParams();
 
-    /*
-    useEffect(() => {
-        fetch(`${url}/${id}`)
-            .then(res => res.json())
-            .then(film => setFilm(film));
-    }, []);
-    */
-
     useEffect(() => {
         // declare the data fetching function
         const fetchData = async () => {
@@ -34,7 +26,6 @@ export function Film() {
       
         // call the function
         fetchData()
-          // make sure to catch any error
           .catch(console.error);
       }, [])
 

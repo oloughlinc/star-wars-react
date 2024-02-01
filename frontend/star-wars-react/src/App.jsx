@@ -8,8 +8,6 @@ import { Planet } from './components/Planet'
 
 
 function App() {
-  //const [count, setCount] = useState(0)
-
   return (
     <>
       <Routes>
