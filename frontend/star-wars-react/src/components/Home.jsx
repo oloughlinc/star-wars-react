@@ -19,7 +19,7 @@ export function Home() {
     return(
         <>
             <div className='centered'>
-            <h1 id="name" style={{fontFamily: 'Star Wars', fontSize: '50px'}}>Star Wars Universe Lookup</h1>
+            <h1 id="name-main" style={{fontFamily: 'Star Wars', fontSize: '50px'}}>Star Wars Universe Lookup</h1>
             </div>
             <Search chars={charactersCache} setChars={setCharacters}/>
             <section id="charactersList">

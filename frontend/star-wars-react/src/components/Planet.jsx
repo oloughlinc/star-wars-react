@@ -28,6 +28,10 @@ export function Planet() {
 
     }, []);
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
+
     return (
         <>
             <h1 id="name">{planet.name}</h1>

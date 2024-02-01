@@ -29,11 +29,17 @@ export function Film() {
           .catch(console.error);
       }, [])
 
+      useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
+
     return (
         <>
         <h1 id="name">{film.title}</h1>
         <section id="generalInfo">
-            <div id="crawl"><b>{film.opening_crawl}</b></div>
+            <div id='crawl-container'>
+              <div id="crawl"><b>{film.opening_crawl}</b></div>
+            </div>
             <p>Episode: <span id="episode">{film.episode_id}</span></p>
             <p>Director: <span id="director">{film.director}</span></p>
             <p>Release Date: <span id="release">{film.release_date}</span></p>

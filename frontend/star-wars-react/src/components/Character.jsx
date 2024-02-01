@@ -33,6 +33,10 @@ export function Character() {
           .catch(console.error);
       }, [])
 
+      useEffect(() => {
+        window.scrollTo(0, 0)
+      }, [])
+
     return (
         <>
         <h1 id="name">{character.name}</h1>

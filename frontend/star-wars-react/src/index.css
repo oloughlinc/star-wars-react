@@ -26,6 +26,7 @@ p {
 }
 
 #background {
+  background-color: black;
   background-image: url('/space.jpg');
   width:100vw;
   height:120vh;
@@ -93,11 +94,23 @@ h1#name {
   margin: 50px;
   animation-name: fade;
   animation-duration: 2s;
+  animation: fade 2s, enterRight 1s;
+}
+
+h1#name-main {
+  margin: 50px;
+  animation-name: fade;
+  animation-duration: 2s;
 }
 
 @keyframes fade {
   from {opacity: 0;}
   to {opacity: 1;}
+}
+
+@keyframes enterRight {
+  from {transform: translateX(400px);}
+  to {transform: translateX(0px);}
 }
 
 #name {
@@ -177,6 +190,11 @@ section#films a:hover {
   background-color: black;
   animation-name: fade;
   animation-duration: 5s;
+}
+
+#crawl-container {
+  overflow-y: hidden;
+  height: 150px;
 }
 
 @keyframes enterLeft {
